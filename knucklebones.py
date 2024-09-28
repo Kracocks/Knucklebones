@@ -30,19 +30,22 @@ class Player:
                 col_value += case_value  
         return col_value
     
-    def remove_values(self, col:int, value_to_remove:int):
-        for ind_case_value in range(len(self.board[col])):
-            if self.board[col][ind_case_value] == value_to_remove:
-                self.board[col][ind_case_value] = 0
+    def remove_values(self, ind_col:int, value_to_remove:int):
+        for ind_case_value in range(len(self.board[ind_col])):
+            if self.board[ind_col][ind_case_value] == value_to_remove:
+                self.board[ind_col][ind_case_value] = 0
+        # TODO decaler les valeurs si une valeur a été supprimé
         
-            
-    def put_value(self, ennemy:"Player", col:int, value_to_put:int) -> bool:
-        for ind_case_value in range(len(self.board[col])):
-            if self.board[col][ind_case_value] == 0:
-                self.board[col][ind_case_value] = value_to_put
-                ennemy.remove_values(col, value_to_put)
+    def put_value(self, ennemy:"Player", ind_col:int, value_to_put:int) -> bool:
+        for ind_case_value in range(len(self.board[ind_col])):
+            if self.board[ind_col][ind_case_value] == 0:
+                self.board[ind_col][ind_case_value] = value_to_put
+                ennemy.remove_values(ind_col, value_to_put)
                 return True
         return False
+    
+    def get_column(self, ind_col:int):
+        return self.board[ind_col]
             
 dice_value = 0
 ennemy = Player()
