@@ -14,11 +14,12 @@ class Player:
     
     def __repr__(self) -> str:
         repr = self.name
-        repr += "+-+-+-+\n"
+        repr += "\n+-+-+-+\n"
         repr += f"|{self.board[0][0]}|{self.board[1][0]}|{self.board[2][0]}|\n"
         repr += f"|{self.board[0][1]}|{self.board[1][1]}|{self.board[2][1]}|\n"
         repr += f"|{self.board[0][2]}|{self.board[1][2]}|{self.board[2][2]}|\n"
         repr += "+-+-+-+\n"
+        repr += str(self.total_value)
         return repr
         
     def get_column_value(self, ind_col:int) -> int:
@@ -122,19 +123,61 @@ class Player:
         """
         self.total_value = self.get_column_value(0) + self.get_column_value(1) + self.get_column_value(2)
     
-    def has_won(self) -> bool:
+    def has_finished(self) -> bool:
         """Returns if the player has won
 
         Returns:
             bool: Returns True if the player has won otherwise returns False
         """
-        for column in self.board:
-            return not 0 in column
-        return True
+        return all(0 not in column for column in self.board)
             
 dice_value = 0
 ennemy = Player("Kracocks Bot")
-player = Player("")
-# while True:
-#     dice_value = randint(1,6)
-    
+player = Player("You")
+
+def player_turn():
+    dice_value = randint(1,6)
+    print(f"the value of the dice is {dice_value}.")
+    is_asking = True
+    while is_asking:
+        try:
+            column_chosen = int(input("Which column do you put it in : "))
+            if player.put_value(ennemy, column_chosen, dice_value):
+                is_asking = False
+            else:
+                print("The chosen column is full. Please choose another column")
+        except:
+            print("Wrong column index. Please retype")
+    player.calc_total()
+            
+def bot_turn():
+    dice_value = randint(1,6)
+    print(f"the value of the dice is {dice_value}.")
+    while True:
+        column_chosen = randint(0, 2)
+        if ennemy.put_value(player, column_chosen, dice_value):
+            break
+    print(f"The bot put the dice in the column {column_chosen}")
+    ennemy.calc_total()
+
+
+print("playing Knucklebones")
+while True:
+    print(ennemy)
+    print("---------------------------------")
+    print(player)
+    player_turn()
+    if player.has_finished():
+        break
+    bot_turn()
+    if ennemy.has_finished():
+        break
+if player.total_value > ennemy.total_value:
+    gagnant = player.name
+elif player.total_value < ennemy.total_value:
+    gagnant = ennemy.name
+
+if gagnant == None:
+    print("That's a tie")
+else:
+    print(f"Le gagnant est {gagnant}")

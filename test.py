@@ -14,7 +14,7 @@ class TestStringMethods(unittest.TestCase):
         player_test.put_value(ennemy_test,0,4)
         self.assertEqual(player_test.get_column_value(0), 36)
         
-    def test_get_ranged_value(self):
+    def test_put_value(self):
         player_test = Player()
         ennemy_test = Player()
         self.assertEqual(player_test.put_value(ennemy_test, 2, 4), True)
@@ -60,8 +60,8 @@ class TestStringMethods(unittest.TestCase):
         player_test.put_value(ennemy_test,2,1)
         player_test.put_value(ennemy_test,2,1)
         player_test.put_value(ennemy_test,2,1)
-        self.assertEqual(player_test.has_won(), True)
-        self.assertEqual(ennemy_test.has_won(), False)
+        self.assertEqual(player_test.has_finished(), True)
+        self.assertEqual(ennemy_test.has_finished(), False)
 
 if __name__ == '__main__':
     unittest.main()
