@@ -106,6 +106,16 @@ class Player:
             list[int]: the column
         """
         return self.board[ind_col]
+    
+    def has_won(self) -> bool:
+        """Returns if the player has won
+
+        Returns:
+            bool: Returns True if the player has won otherwise returns False
+        """
+        for column in self.board:
+            return not 0 in column
+        return True
             
 dice_value = 0
 ennemy = Player()

@@ -30,8 +30,22 @@ class TestStringMethods(unittest.TestCase):
         player_test.put_value(ennemy_test, 0, 1)
         player_test.put_value(ennemy_test, 0, 1)
         player_test.remove_values(0, 5)
-        # TODO Quand la fonction sera corrigé modifié la valeur attendu
         self.assertEqual(player_test.get_column(0), [1, 1, 0])
+        
+    def test_winning(self):
+        player_test = Player()
+        ennemy_test = Player()
+        player_test.put_value(ennemy_test,0,1)
+        player_test.put_value(ennemy_test,0,1)
+        player_test.put_value(ennemy_test,0,1)
+        player_test.put_value(ennemy_test,1,1)
+        player_test.put_value(ennemy_test,1,1)
+        player_test.put_value(ennemy_test,1,1)
+        player_test.put_value(ennemy_test,2,1)
+        player_test.put_value(ennemy_test,2,1)
+        player_test.put_value(ennemy_test,2,1)
+        self.assertEqual(player_test.has_won(), True)
+        self.assertEqual(ennemy_test.has_won(), False)
 
 if __name__ == '__main__':
     unittest.main()
