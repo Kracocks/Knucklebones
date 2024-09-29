@@ -1,10 +1,11 @@
 from random import randint
 
 class Player:
-    def __init__(self) -> None:
+    def __init__(self, name:str = "Player") -> None:
         self.board = [
             [0,0,0], [0,0,0], [0,0,0]
         ]
+        self.name = name
         # Limit list lenght
         for column in self.board:
             column = column[:3]
@@ -12,7 +13,8 @@ class Player:
         self.total_value = 0
     
     def __repr__(self) -> str:
-        repr = "+-+-+-+\n"
+        repr = self.name
+        repr += "+-+-+-+\n"
         repr += f"|{self.board[0][0]}|{self.board[1][0]}|{self.board[2][0]}|\n"
         repr += f"|{self.board[0][1]}|{self.board[1][1]}|{self.board[2][1]}|\n"
         repr += f"|{self.board[0][2]}|{self.board[1][2]}|{self.board[2][2]}|\n"
@@ -37,16 +39,24 @@ class Player:
             5 : 0,
             6 : 0
         }
+        # Count the number of occurrences for each number in le column
         for case_value in self.board[ind_col]:
             if case_value != 0:
                 number_of[case_value] += 1
+                
+        # Calculate the number of the column depending of the occurrence
+        passed_values = set()
         for case_value in self.board[ind_col]:
-            if number_of[case_value] == 1:
-                col_value += case_value
-            elif number_of[case_value] == 2:
-                col_value += case_value * 4
-            else:
-                col_value += case_value
+            if case_value != 0 and case_value not in passed_values:
+                if number_of[case_value] == 1:
+                    col_value += case_value
+                elif number_of[case_value] == 2:
+                    col_value += case_value * 4
+                elif number_of[case_value] == 3:
+                    col_value += case_value * 9
+                else:
+                    col_value += case_value
+                passed_values.add(case_value)
         return col_value
     
     def remove_values(self, ind_col:int, value_to_remove:int):
@@ -107,6 +117,11 @@ class Player:
         """
         return self.board[ind_col]
     
+    def calc_total(self):
+        """Set the total value of the player
+        """
+        self.total_value = self.get_column_value(0) + self.get_column_value(1) + self.get_column_value(2)
+    
     def has_won(self) -> bool:
         """Returns if the player has won
 
@@ -118,8 +133,8 @@ class Player:
         return True
             
 dice_value = 0
-ennemy = Player()
-player = Player()
+ennemy = Player("Kracocks Bot")
+player = Player("")
 # while True:
 #     dice_value = randint(1,6)
     
